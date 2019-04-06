@@ -1,0 +1,52 @@
+CREATE TABLE if not exists Library(
+  Name varchar(255) PRIMARY KEY,
+  Street varchar(255),
+  City varchar(255) NOT NULL,
+  PostalCode varchar(255) NOT NULL
+);
+
+CREATE TABLE if not exists Client(
+  Card varchar(16),
+  FirstName varchar(255) NOT NULL,
+  LastName varchar(255) NOT NULL,
+  Email varchar(255) NOT NULL,
+  DateOfBirth varchar(255),
+  
+  PRIMARY KEY(Card),
+  UNIQUE (Email),
+  CHECK (Email LIKE '_%@_%._%')
+);
+
+CREATE TABLE if not exists Phone(
+  Client varchar(255) REFERENCES Client(Card),
+  Number varchar(9),
+  
+  PRIMARY KEY(Client, Number)
+);
+
+CREATE TABLE if not exists Title(
+  IdTitle integer PRIMARY KEY,
+  ISBN varchar(17) NOT NULL UNIQUE,
+  Title varchar(255) NOT NULL
+  
+);
+
+CREATE TABLE if not exists Author(
+  IdAuthor integer PRIMARY KEY,
+  Name varchar(255) NOT NULL,
+  YearOfBirth integer,
+  YearOfDeath integer
+  
+  CHECK(YearOfDeath > YearOfBirth OR 
+       YearOfDeath IS NULL OR
+       YearOfBirth iS NULL)
+);
+
+CREATE TABLE if not exists Autorship(
+  Title integer REFERENCES Title(IdTitle)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  Author integer REFERENCES Author(IdAuthor),
+  
+  PRIMARY KEY(Title, Author)
+);
