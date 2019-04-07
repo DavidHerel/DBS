@@ -6,16 +6,8 @@
 --    Sorting (ORDER BY clause)
 --    Sub-query expression
 
--- I need natural join
 -- 
-
-
---Inner join completed
---find city for customer who has id 1
-SELECT city
-FROM CustAdress
-JOIN Customer ON Customer.id = CustAdress.customer
-WHERE id = 1
+-- 
 
 --ORDER BY completed, GROUP BY, HAVING, EXCEPT completed
 --find all employyes names that have higher salary than 30 000CZK in descending order
@@ -42,12 +34,19 @@ LEFT JOIN Membership
 ON Customer.id = Membership.customer
 WHERE startDate IS NULL
 
---Except used
---Vyberu zakazniky co použivaji nějaký equipment ale nemají členství
+--Except used and natural join too
+--Choosing equipment which is used more than 30 minutes
 SELECT equipment
 FROM usingNow
 EXCEPT
 SELECT equipment
 FROM usingNow
+NATURAL JOIN Customer
 WHERE length < 30
 
+--Inner join completed
+--find city for customer who has id 1
+SELECT city
+FROM CustAdress
+JOIN Customer ON Customer.id = CustAdress.customer
+WHERE id = 1
